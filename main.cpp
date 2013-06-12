@@ -15,7 +15,7 @@ int main(int argc, char** argv)
         input.open_file(argv[1]);
         input.read();
         int a = 2;
-        Node lala ((NodeType)1,&a);
+        Node lala ((NodeType)1);
     }
     else
     {
