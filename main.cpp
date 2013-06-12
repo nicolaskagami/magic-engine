@@ -16,6 +16,12 @@ int main(int argc, char** argv)
         input.read();
         int a = 2;
         Node lala ((NodeType)1);
+        Node lala2 ((NodeType)2);
+        Node lala3 ((NodeType)3);
+        Node lala4 ((NodeType)4);
+        Node lala5 ((NodeType)0);
+        
+        Node::print_all();
     }
     else
     {

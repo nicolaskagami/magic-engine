@@ -37,17 +37,26 @@ class Interface
         Wave output;
         Interface * next;
         Interface();
-        int connect(Interface *);
+        int establish(Interface *);
         void exchange();
 };
 class Node
 {
     public:
         static int num_nodes;
+        static Node * first;
+        static Node * last;
+        static void print_all();
+        static Node * find(int);
         int id;
+        Node * next;  
         NodeType type;
         Interface connections[MAX_NODES];
         int total_active_cost;
         Node(NodeType kind);
+        void set_next(Node*);
+        int connect();
+        void print_type();
+        void print();
         void execute();
 };
