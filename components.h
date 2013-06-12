@@ -35,18 +35,19 @@ class Interface
     public:
         Wave input;
         Wave output;
-        int next;
+        Interface * next;
+        Interface();
+        int connect(Interface *);
         void exchange();
 };
 class Node
 {
     public:
         static int num_nodes;
-        static Node nodes[MAX_NODES];
         int id;
         NodeType type;
         Interface connections[MAX_NODES];
         int total_active_cost;
-        Node(NodeType, int *);
+        Node(NodeType kind);
         void execute();
 };

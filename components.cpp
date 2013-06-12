@@ -9,24 +9,25 @@ int active_cost[NUM_TYPES]={REPEATER_ACT_COST,TRANSITIONAL_ACT_COST,DIODE_ACT_CO
 int num_interfaces[NUM_TYPES]={REPEATER_NUM_INT,TRANSITIONAL_NUM_INT,DIODE_NUM_INT,TRANSISTOR_NUM_INT,CAPACITOR_NUM_INT};
 
 int Node::num_nodes = 0;
-Node Node::nodes[MAX_NODES];
+Interface::Interface()
+{
+    next = 0;
+}
+int Interface::connect(Interface * connectee)
+{
+    next = connectee;
+}
 void Interface::exchange()
 {
-    nodes[next].input = output;  
 }
-Node::Node(NodeType kind, int * connects)
+Node::Node(NodeType kind)
 {
-    int i;
     id = num_nodes;
-    nodes[num_nodes] = this;
     num_nodes++;
     type = kind;
-    for(i=0;i<num_interfaces[type];i++)
-    {
-        connections[i].next = connects[i];
-    }
 }
 void Node::execute()
 { 
     printf("execution");
 }
+
