@@ -11,6 +11,7 @@ int num_interfaces[NUM_TYPES]={REPEATER_NUM_INT,TRANSITIONAL_NUM_INT,DIODE_NUM_I
 int Node::num_nodes = 0;
 Node * Node:: first = 0;
 Node * Node:: last = 0;
+
 Interface::Interface()
 {
     next = 0;
@@ -22,10 +23,34 @@ int Interface::establish(Interface * connectee)
 void Interface::exchange()
 {
 }
+void Interface::print()
+{
+    //input.print()
+    //output.print()
+    if(next)
+    {
+        printf("Connected\n");
+    }
+}
+int Interface::verify()
+{
+    if(next->next == this)
+    {
+        return 1; 
+    }
+    else
+    {
+        return 0;
+    }
+}
 
 void Node::set_next(Node * new_node)
 {
     next = new_node;
+}
+int Node::connect(int thisInterface, int nextInterface, Node * nextNode)
+{
+   connections[thisInterface].establish(&(next->connections[nextInterface]));
 }
 Node::Node(NodeType kind)
 {

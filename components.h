@@ -36,9 +36,12 @@ class Interface
         Wave input;
         Wave output;
         Interface * next;
+
         Interface();
         int establish(Interface *);
         void exchange();
+        int verify();
+        void print();
 };
 class Node
 {
@@ -55,7 +58,7 @@ class Node
         int total_active_cost;
         Node(NodeType kind);
         void set_next(Node*);
-        int connect();
+        int connect(int, int , Node *);
         void print_type();
         void print();
         void execute();
