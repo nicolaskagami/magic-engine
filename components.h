@@ -5,14 +5,14 @@
 #define NUM_TYPES                   6
 #define MAX_NODES                   20
 
-#define REPEATER_PAS_COST           10
+#define REPEATER_PAS_COST           1
 #define TRANSITIONAL_PAS_COST       10
 #define DIODE_PAS_COST              10
 #define TRANSISTOR_PAS_COST         10
 #define CAPACITOR_PAS_COST          10
 #define SHIFTER_PAS_COST            10
 
-#define REPEATER_ACT_COST           10
+#define REPEATER_ACT_COST           0
 #define TRANSITIONAL_ACT_COST       10
 #define DIODE_ACT_COST              10
 #define TRANSISTOR_ACT_COST         10
@@ -29,25 +29,25 @@
 enum NodeType {Repeater,Transitional,Diode,Transistor,Capacitor,Shifter};
 
 // Interfaces:
-// Repeater: 
+// Repeater: 0 
 //      all =  
-// Transitional 
+// Transitional: 1 next_id next_interface 
 //      0 = connection
-// Diode  
+// Diode: 2 input_nid input_nint output_nid output_nint  
 //      0 = input 
 //      1 = output
-// Transistor
-//      0 = input
-//      1 = output
+// Transistor: 3  first_nid first_nint second_nid second_nint 
+//      0 = first
+//      1 = second
 //      2 = controller
-// Capacitor
-//      0 = input
-//      1 = input controller
-//      2 = output
-//      3 = output controller
-// Shifter
-//      0 = input
-//      1 = output
+// Capacitor: 4 first_nid first_nint second_nid second_nint
+//      0 = first
+//      1 = first controller
+//      2 = second
+//      3 = second controller
+// Shifter: 5 first_nid first_nint second_nid second_nint 
+//      0 = first (bothways)
+//      1 = second (bothways)
 
 
 class Wave
@@ -88,4 +88,5 @@ class Node
         void print_type();
         void print();
         void execute();
+        int add_component(int*, int);
 };

@@ -3,6 +3,7 @@
 
 #include<stdio.h>
 #include "components.h"
+#include "io.h"
 
 int passive_cost[NUM_TYPES]={REPEATER_PAS_COST,TRANSITIONAL_PAS_COST,DIODE_PAS_COST,TRANSISTOR_PAS_COST,CAPACITOR_PAS_COST,SHIFTER_PAS_COST};
 int active_cost[NUM_TYPES]={REPEATER_ACT_COST,TRANSITIONAL_ACT_COST,DIODE_ACT_COST,TRANSISTOR_ACT_COST,CAPACITOR_ACT_COST,SHIFTER_ACT_COST};
@@ -22,6 +23,7 @@ int Interface::establish(Interface * connectee)
 }
 void Interface::exchange()
 {
+    next->input = output;
 }
 void Interface::print()
 {
@@ -115,5 +117,25 @@ void Node::print_all()
     for(parser = first; parser; parser = parser->next)
     {
         parser->print(); 
+    }
+}
+int Node::add_component(int * parameters, int numparam)
+{
+    switch(parameters[0])
+    {
+        case  Repeater:
+            printf("Repeater\n");break;
+        case  Transitional:
+            printf("Transitional\n");break;
+        case  Diode:
+            printf("Diode\n");break;
+        case  Transistor:
+            printf("Transistor\n");break;
+        case  Capacitor:
+            printf("Capacitor\n");break;
+        case  Shifter:
+            printf("Shifter\n");break;
+        default:
+            printf("Unknown Type\n");
     }
 }
