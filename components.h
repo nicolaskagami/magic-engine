@@ -2,7 +2,7 @@
 //Components Header
 
 #define NUM_PHASES                  4
-#define NUM_TYPES                   5
+#define NUM_TYPES                   6
 #define MAX_NODES                   20
 
 #define REPEATER_PAS_COST           10
@@ -10,20 +10,46 @@
 #define DIODE_PAS_COST              10
 #define TRANSISTOR_PAS_COST         10
 #define CAPACITOR_PAS_COST          10
+#define SHIFTER_PAS_COST            10
 
 #define REPEATER_ACT_COST           10
 #define TRANSITIONAL_ACT_COST       10
 #define DIODE_ACT_COST              10
 #define TRANSISTOR_ACT_COST         10
 #define CAPACITOR_ACT_COST          10
+#define SHIFTER_ACT_COST            10
 
 #define REPEATER_NUM_INT            10
 #define TRANSITIONAL_NUM_INT        1
 #define DIODE_NUM_INT               2 
 #define TRANSISTOR_NUM_INT          3
 #define CAPACITOR_NUM_INT           4
+#define SHIFTER_NUM_INT             4
 
-enum NodeType {Repeater,Transitional,Diode,Transistor,Capacitor};
+enum NodeType {Repeater,Transitional,Diode,Transistor,Capacitor,Shifter};
+
+// Interfaces:
+// Repeater: 
+//      all =  
+// Transitional 
+//      0 = connection
+// Diode  
+//      0 = input 
+//      1 = output
+// Transistor
+//      0 = input
+//      1 = output
+//      2 = controller
+// Capacitor
+//      0 = input
+//      1 = input controller
+//      2 = output
+//      3 = output controller
+// Shifter
+//      0 = input
+//      1 = output
+
+
 class Wave
 {
     public:
