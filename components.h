@@ -77,6 +77,7 @@ class Node
         static Node * last;
         static void print_all();
         static Node * find(int);
+        static void extract(char*);
         int id;
         Node * next;  
         NodeType type;

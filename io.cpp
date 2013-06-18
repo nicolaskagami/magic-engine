@@ -9,7 +9,7 @@ IO::IO()
 {
     file_confirm = 0;
 }
-void IO::read()
+int IO::read()
 {
     if(file_confirm)
     {
@@ -23,11 +23,17 @@ void IO::read()
                 buffer = strtok(NULL," ,./");
                 numparam++;
            }
+           return 1;
+        }
+        else
+        {
+            return 0; 
         }
     }
     else
     {
         printf("No file opened yet\n");
+        return 0;
     }
 }
 int IO::open_file(char * filename)

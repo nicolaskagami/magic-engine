@@ -139,3 +139,14 @@ int Node::add_component(int * parameters, int numparam)
             printf("Unknown Type\n");
     }
 }
+void Node::extract(char * filename)
+{
+    int i;
+    IO input;
+    input.open_file(filename);
+    while(input.read())
+    {
+        for(i=0;i<input.numparam;i++)
+            printf("%d",input.parameters[i]);
+    }
+}

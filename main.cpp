@@ -11,15 +11,7 @@ int main(int argc, char** argv)
 {
     if(argc == 2)
     {
-        IO input;
-        input.open_file(argv[1]);
-        input.read();
-        Node lala ((NodeType)1);
-        Node lala2 ((NodeType)2);
-        Node lala3 ((NodeType)3);
-        Node lala4 ((NodeType)4);
-        Node lala5 ((NodeType)0);
-        
+        Node::extract(argv[1]);
         Node::print_all();
     }
     else
@@ -27,4 +19,3 @@ int main(int argc, char** argv)
         printf("No input file parameter\n");
     }
 } 
-

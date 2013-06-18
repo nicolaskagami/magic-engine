@@ -13,7 +13,7 @@ class IO
         bool file_confirm;
         char entrystr[MAX_LINE_SIZE];
         IO();
-        void read();
+        int read();
         int open_file(char * filename);
     private:
         char * buffer;
