@@ -4,6 +4,7 @@
 #define NUM_PHASES                  4
 #define NUM_TYPES                   6
 #define MAX_NODES                   20
+#define MAX_CONNECTIONS             5
 
 #define REPEATER_PAS_COST           1
 #define TRANSITIONAL_PAS_COST       10
@@ -62,9 +63,11 @@ class Interface
         Wave input;
         Wave output;
         Interface * next;
+        int next_id;
+        int next_int;
 
         Interface();
-        int establish(Interface *);
+        int establish();
         void exchange();
         int verify();
         void print();
@@ -78,15 +81,19 @@ class Node
         static void print_all();
         static Node * find(int);
         static void extract(char*);
+        static void connect_all();
+
         int id;
         Node * next;  
         NodeType type;
-        Interface connections[MAX_NODES];
+        int num_active_interfaces;
+        Interface connections[MAX_CONNECTIONS];
         int total_active_cost;
+
         Node();
         Node(NodeType kind);
         void set_next(Node*);
-        int connect(int, int , Node *);
+        void connect();
         void print_type();
         void print();
         void execute();

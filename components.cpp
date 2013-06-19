@@ -16,10 +16,21 @@ Node * Node:: last = 0;
 Interface::Interface()
 {
     next = 0;
+    next_id = 0;
+    next_int = 0;
 }
-int Interface::establish(Interface * connectee)
+int Interface::establish()
 {
-    next = connectee;
+    Node * candidate = Node::find(next_id);
+    if(candidate)
+    {
+        next = &(candidate->connections[next_int]);
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
 }
 void Interface::exchange()
 {
@@ -31,7 +42,11 @@ void Interface::print()
     //output.print()
     if(next)
     {
-        printf("Connected\n");
+        printf("Connected to %d at %d \n", next_id, next_int);
+    }
+    else
+    {
+        printf("Not connected\n");
     }
 }
 int Interface::verify()
@@ -50,9 +65,13 @@ void Node::set_next(Node * new_node)
 {
     next = new_node;
 }
-int Node::connect(int thisInterface, int nextInterface, Node * nextNode)
+void Node::connect()
 {
-   connections[thisInterface].establish(&(next->connections[nextInterface]));
+    int i;
+    for(i=0;i<num_active_interfaces;i++)
+    {
+        connections[i].establish();
+    }
 }
 Node::Node()
 {
@@ -67,6 +86,7 @@ Node::Node()
     last = this;
     next = NULL;
     id = num_nodes;
+    num_active_interfaces = 0;
     num_nodes++;
 }
 Node::Node(NodeType kind)
@@ -82,6 +102,7 @@ Node::Node(NodeType kind)
     last = this;
     next = NULL;
     id = num_nodes;
+    num_active_interfaces = 0;
     num_nodes++;
     type = kind;
 }
@@ -122,9 +143,14 @@ void Node::print_type()
 }
 void Node::print()
 {
+    int i;
     printf("Node: %d\n",id);
     print_type();
     printf("Passive Cost: %d\n", passive_cost[type]);
+    for(i=0;i<num_active_interfaces;i++) 
+    {
+        connections[i].print();
+    }
 }
 void Node::print_all()
 {
@@ -132,7 +158,7 @@ void Node::print_all()
     for(parser = first; parser; parser = parser->next)
     {
         parser->print(); 
-    }
+     }
 }
 int Node::add_component(int * parameters, int numparam)
 {
@@ -156,15 +182,26 @@ int Node::add_component(int * parameters, int numparam)
 }
 void Node::extract(char * filename)
 {
-    int i;
+    int i,j;
     IO input;
     input.open_file(filename);
     while(input.read())
     {
         Node * newnode = new Node;
-        for(i=0;(i<input.numparam) || (i<MAX_NODES);i++)
+        newnode->type = (NodeType)input.parameters[0];
+        for(i=1,j=0;(i<input.numparam) && (i<MAX_CONNECTIONS+1);i+=2,j++)
         {
-                              
+            newnode->connections[j].next_id = input.parameters[i];
+            newnode->connections[j].next_int = input.parameters[i+1]; 
         }
+        newnode->num_active_interfaces = j;
+    }
+}
+void Node::connect_all()
+{
+    Node * parser;
+    for(parser = first; parser; parser = parser->next)
+    {
+        parser->connect(); 
     }
 }

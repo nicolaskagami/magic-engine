@@ -12,6 +12,7 @@ int main(int argc, char** argv)
     if(argc == 2)
     {
         Node::extract(argv[1]);
+        Node::connect_all();
         Node::print_all();
     }
     else
