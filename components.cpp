@@ -54,6 +54,21 @@ int Node::connect(int thisInterface, int nextInterface, Node * nextNode)
 {
    connections[thisInterface].establish(&(next->connections[nextInterface]));
 }
+Node::Node()
+{
+    if(num_nodes)
+    {
+        last->set_next(this);
+    }
+    else
+    {
+        first = this;
+    }
+    last = this;
+    next = NULL;
+    id = num_nodes;
+    num_nodes++;
+}
 Node::Node(NodeType kind)
 {
     if(num_nodes)
@@ -146,7 +161,10 @@ void Node::extract(char * filename)
     input.open_file(filename);
     while(input.read())
     {
-        for(i=0;i<input.numparam;i++)
-            printf("%d",input.parameters[i]);
+        Node * newnode = new Node;
+        for(i=0;(i<input.numparam) || (i<MAX_NODES);i++)
+        {
+                              
+        }
     }
 }

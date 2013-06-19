@@ -83,6 +83,7 @@ class Node
         NodeType type;
         Interface connections[MAX_NODES];
         int total_active_cost;
+        Node();
         Node(NodeType kind);
         void set_next(Node*);
         int connect(int, int , Node *);
