@@ -23,7 +23,7 @@
 #define REPEATER_NUM_INT            10
 #define TRANSITIONAL_NUM_INT        1
 #define DIODE_NUM_INT               2 
-#define TRANSISTOR_NUM_INT          3
+#define TRANSISTOR_NUM_INT          3 
 #define CAPACITOR_NUM_INT           4
 #define SHIFTER_NUM_INT             4
 
@@ -54,6 +54,7 @@ enum NodeType {Repeater,Transitional,Diode,Transistor,Capacitor,Shifter};
 class Wave
 {
     public:
+        void print();
         int phase[NUM_PHASES];
         int type;
 };
@@ -68,7 +69,7 @@ class Interface
 
         Interface();
         int establish();
-        void exchange();
+        void update();
         int verify();
         void print();
 };
@@ -82,6 +83,8 @@ class Node
         static Node * find(int);
         static void extract(char*);
         static void connect_all();
+        static int verify_all();
+        static void execute_all(int rounds);
 
         int id;
         Node * next;  
@@ -94,6 +97,7 @@ class Node
         Node(NodeType kind);
         void set_next(Node*);
         void connect();
+        int verify();
         void print_type();
         void print();
         void execute();

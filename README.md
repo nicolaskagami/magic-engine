@@ -1,4 +1,4 @@
-magic_engine
+magic engine
 ============
 
 Magic Engine for the RPG

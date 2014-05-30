@@ -13,6 +13,15 @@ int Node::num_nodes = 0;
 Node * Node:: first = 0;
 Node * Node:: last = 0;
 
+void Wave::print()
+{
+    int i;
+    printf("Type %d\t", type);
+    for(i=0;i<NUM_PHASES;i++)
+        printf("%d ",phase[i]);
+    printf("\n");
+}
+
 Interface::Interface()
 {
     next = 0;
@@ -32,9 +41,9 @@ int Interface::establish()
         return 0;
     }
 }
-void Interface::exchange()
+void Interface::update()
 {
-    next->input = output;
+    input = next->output;
 }
 void Interface::print()
 {
@@ -57,6 +66,7 @@ int Interface::verify()
     }
     else
     {
+        //printf("Not verified:%d")
         return 0;
     }
 }
@@ -105,6 +115,10 @@ Node::Node(NodeType kind)
     num_active_interfaces = 0;
     num_nodes++;
     type = kind;
+    if(type == 1)
+    {
+        connections[0].input.phase[0] = 1;
+    }
 }
 Node * Node::find(int id)
 {
@@ -118,7 +132,17 @@ Node * Node::find(int id)
 }
 void Node::execute()
 { 
-    printf("execution");
+    int i;
+    printf("Execute %d\n", id);
+    for(i=0;i<num_active_interfaces;i++)
+    {
+        printf("Connection %d:\n",i);
+        printf("Input\t");
+        connections[i].input.print();
+        printf("Output\t");
+        connections[i].output.print();
+        connections[i].update();
+    }
 }
 void Node::print_type()
 {
@@ -158,7 +182,7 @@ void Node::print_all()
     for(parser = first; parser; parser = parser->next)
     {
         parser->print(); 
-     }
+    }
 }
 int Node::add_component(int * parameters, int numparam)
 {
@@ -187,9 +211,13 @@ void Node::extract(char * filename)
     input.open_file(filename);
     while(input.read())
     {
-        Node * newnode = new Node;
-        newnode->type = (NodeType)input.parameters[0];
-        for(i=1,j=0;(i<input.numparam) && (i<MAX_CONNECTIONS+1);i+=2,j++)
+        if(input.parameters[0]>=NUM_TYPES)
+        {
+            printf("Type %d does not exist\n",input.parameters[0]);
+            break;
+        }
+        Node * newnode = new Node((NodeType)input.parameters[0]);
+        for(i=1,j=0;(i<input.numparam) && (j<num_interfaces[input.parameters[0]]);i+=2,j++)
         {
             newnode->connections[j].next_id = input.parameters[i];
             newnode->connections[j].next_int = input.parameters[i+1]; 
@@ -203,5 +231,41 @@ void Node::connect_all()
     for(parser = first; parser; parser = parser->next)
     {
         parser->connect(); 
+    }
+}
+int Node::verify()
+{
+    int i;
+    for(i=0;i<num_active_interfaces;i++)
+    {
+        if(connections[i].verify() == 0)
+        {
+            return 0;
+        }
+    }
+    return 1;
+}
+int Node::verify_all()
+{
+    Node * parser;
+    for(parser = first; parser; parser = parser->next)
+    {
+        if(parser->verify() == 0)
+            return 0; 
+    }
+    return 1;
+}
+void Node::execute_all(int rounds)
+{
+    int i;
+    Node * parser;
+    for(i=0;i<rounds;i++)
+    {
+        printf("Round: %d\n",i);
+        for(parser = first; parser; parser = parser->next)
+        {
+            parser->execute(); 
+        }
+        getchar();
     }
 }
